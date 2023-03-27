@@ -1,4 +1,4 @@
-import { Component } from 'react';
+import { useState, useEffect } from 'react';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import ProtoTypes from 'prop-types';
@@ -11,82 +11,68 @@ import ImageGalleryItem from './ImageGalleryItem/ImageGalleryItem';
 import Loader from './Loader/Loader';
 import Button from './Button/Button';
 
-export default class ImageGallery extends Component {
-  state = {
-    imageApiAnswer: [],
-    status: 'idle',
-    searchPage: 1,
-  };
+const ImageGallery = searchQuery => {
+  const [imageApiAnswer, setImageApiAnswer] = useState([]);
+  const [status, setStatus] = useState('idle');
+  const [searchPage, setSearchPage] = useState(1);
 
-  componentDidUpdate(prevProps, prevState) {
-    if (prevProps.searchQuery !== this.props.searchQuery) {
-      this.setState({ imageApiAnswer: [], status: 'panding' });
-    }
-    if (
-      prevProps.searchQuery !== this.props.searchQuery ||
-      prevState.searchPage !== this.state.searchPage
-    ) {
-      this.getImages();
-    }
-  }
+  useEffect(() => {
+    setStatus('panding');
 
-  getImages = () => {
-    imageApi(this.props.searchQuery, this.state.searchPage)
+    getImages();
+  }, []);
+
+  const getImages = () => {
+    imageApi(searchQuery, searchPage)
       .then(({ data }) => {
         if (data.total === 0) {
-          this.setState({ status: 'rejected' });
+          setStatus('rejected');
           return toast.error('incorrect query', {
             position: 'top-center',
           });
         }
-        this.setState(prevState => ({
-          imageApiAnswer: [...prevState.imageApiAnswer, ...data.hits],
-          status: 'resolved',
-        }));
+        setImageApiAnswer(prevState => [...prevState, ...data.hits]);
+        setStatus('resolved');
       })
       .catch(error => {
-        this.setState({ error, status: 'rejected' });
+        setStatus('rejected');
       });
   };
 
-  loadMore = () => {
-    this.setState(prevState => ({
-      searchPage: prevState.searchPage + 1,
-    }));
+  const loadMore = () => {
+    setSearchPage(prevState => prevState + 1);
   };
 
-  render() {
-    const { imageApiAnswer, status } = this.state;
-
-    if (status === 'idle') {
-      return;
-    }
-    if (status === 'panding') {
-      return <Loader />;
-    }
-    if (status === 'rejected') {
-      return <ErrorImg src={errorImg} alt=""></ErrorImg>;
-    }
-
-    if (status === 'resolved') {
-      return (
-        <App>
-          <Gallery>
-            {imageApiAnswer.map(({ id, webformatURL, largeImageURL }) => (
-              <ImageGalleryItem
-                key={id}
-                smallImg={webformatURL}
-                mainImg={largeImageURL}
-              />
-            ))}
-          </Gallery>
-          <Button onIncrementPage={this.loadMore} />
-        </App>
-      );
-    }
+  if (status === 'idle') {
+    return;
   }
-}
+  if (status === 'panding') {
+    return <Loader />;
+  }
+  if (status === 'rejected') {
+    return <ErrorImg src={errorImg} alt=""></ErrorImg>;
+  }
+
+  if (status === 'resolved') {
+    return (
+      <App>
+        <Gallery>
+          {imageApiAnswer.map(({ id, webformatURL, largeImageURL }) => (
+            <ImageGalleryItem
+              key={id}
+              smallImg={webformatURL}
+              mainImg={largeImageURL}
+            />
+          ))}
+        </Gallery>
+        <Button onIncrementPage={loadMore} />
+      </App>
+    );
+  }
+};
 
 ImageGallery.propTypes = {
   searchQuery: ProtoTypes.string,
 };
+
+export default ImageGallery;
