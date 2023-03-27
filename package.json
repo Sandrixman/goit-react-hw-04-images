@@ -1,8 +1,8 @@
 {
-  "name": "goit-react-hw-04-image",
+  "name": "goit-react-hw-04-images",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://sandrixman.github.io/goit-react-hw-04-image/",
+  "homepage": "https://sandrixman.github.io/goit-react-hw-04-images/",
   "dependencies": {
     "@emotion/react": "^11.10.6",
     "@emotion/styled": "^11.10.6",
