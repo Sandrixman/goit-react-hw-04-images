@@ -1,57 +1,47 @@
-import { Component } from 'react';
+import { useState } from 'react';
 import PropTypes from 'prop-types';
 
 import { GalleryCard, GalleryImage } from './ImageGalleryItem.styled';
 
 import Modal from '../Modal/Modal';
 
-export default class ImageGalleryItem extends Component {
-  state = {
-    showModalImage: false,
-    modalUrl: '',
+const ImageGalleryItem = (smallImg, mainImg) => {
+  const [showModalImage, setShowModalImage] = useState(false);
+  const [modalUrl, setModalUrl] = useState('');
+  console.log(modalUrl);
+
+  const toggleModalImage = () => {
+    setShowModalImage(prevState => !prevState);
   };
 
-  toggleModalImage = () => {
-    this.setState(({ showModalImage }) => ({
-      showModalImage: !showModalImage,
-    }));
+  const setModalImage = modalUrl => {
+    setModalUrl(modalUrl);
   };
 
-  setModalImage = modalUrl => {
-    this.setState({
-      modalUrl,
-    });
-  };
-
-  render() {
-    const { smallImg, mainImg } = this.props;
-    return (
-      <>
-        <GalleryCard>
-          <GalleryImage
-            atr
-            src={smallImg}
-            data-url={mainImg}
-            alt=""
-            onClick={e => {
-              // document.getElementById('root').style.overflow = 'hidden';
-              this.toggleModalImage();
-              this.setModalImage(e.currentTarget.dataset.url);
-            }}
-          />
-        </GalleryCard>
-        {this.state.showModalImage && (
-          <Modal
-            modalUrl={this.state.modalUrl}
-            onToggleModalImage={this.toggleModalImage}
-          />
-        )}
-      </>
-    );
-  }
-}
+  return (
+    <>
+      <GalleryCard>
+        <GalleryImage
+          src={smallImg.smallImg}
+          data-url={mainImg.mainImg}
+          alt=""
+          onClick={e => {
+            // document.getElementById('root').style.overflow = 'hidden';
+            toggleModalImage();
+            setModalImage(e.currentTarget.dataset.url);
+          }}
+        />
+      </GalleryCard>
+      {showModalImage && (
+        <Modal modalUrl={modalUrl} onToggleModalImage={toggleModalImage} />
+      )}
+    </>
+  );
+};
 
 ImageGalleryItem.propTypes = {
   smallImg: PropTypes.string,
   mainImg: PropTypes.string,
 };
+
+export default ImageGalleryItem;

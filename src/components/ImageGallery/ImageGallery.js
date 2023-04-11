@@ -17,27 +17,27 @@ const ImageGallery = searchQuery => {
   const [searchPage, setSearchPage] = useState(1);
 
   useEffect(() => {
-    setStatus('panding');
+    return () => {
+      console.log('useEffect');
 
-    getImages();
-  }, []);
+      setStatus('panding');
 
-  const getImages = () => {
-    imageApi(searchQuery, searchPage)
-      .then(({ data }) => {
-        if (data.total === 0) {
+      imageApi(searchQuery, searchPage)
+        .then(({ data }) => {
+          if (data.total === 0) {
+            setStatus('rejected');
+            return toast.error('incorrect query', {
+              position: 'top-center',
+            });
+          }
+          setImageApiAnswer(prevState => [...prevState, ...data.hits]);
+          setStatus('resolved');
+        })
+        .catch(error => {
           setStatus('rejected');
-          return toast.error('incorrect query', {
-            position: 'top-center',
-          });
-        }
-        setImageApiAnswer(prevState => [...prevState, ...data.hits]);
-        setStatus('resolved');
-      })
-      .catch(error => {
-        setStatus('rejected');
-      });
-  };
+        });
+    };
+  }, [searchQuery, searchPage]);
 
   const loadMore = () => {
     setSearchPage(prevState => prevState + 1);

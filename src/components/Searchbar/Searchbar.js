@@ -1,4 +1,4 @@
-import { Component } from 'react';
+import { useState } from 'react';
 import PropTypes from 'prop-types';
 
 import {
@@ -9,46 +9,43 @@ import {
   FormInput,
 } from './Seachbar.styled';
 
-export default class Searchbar extends Component {
-  state = {
-    searchQuery: '',
+const Searchbar = onSubmit => {
+  const [searchQuery, setSearchQuery] = useState('');
+
+  const handleQueryChange = e => {
+    setSearchQuery(e.currentTarget.value.toLowerCase());
   };
 
-  handleQueryChange = e => {
-    this.setState({ searchQuery: e.currentTarget.value.toLowerCase() });
-  };
-
-  handleSubmit = e => {
+  const handleSubmit = e => {
     e.preventDefault();
-    const { searchQuery } = this.state;
 
-    this.props.onSubmit(searchQuery);
-    this.setState({ searchQuery: '' });
+    onSubmit(searchQuery);
+    setSearchQuery('');
   };
 
-  render() {
-    return (
-      <Header>
-        <Form onSubmit={this.handleSubmit}>
-          <SearchButton type="submit">
-            <ButtonSpan>Search</ButtonSpan>
-          </SearchButton>
+  return (
+    <Header>
+      <Form onSubmit={handleSubmit}>
+        <SearchButton type="submit">
+          <ButtonSpan>Search</ButtonSpan>
+        </SearchButton>
 
-          <FormInput
-            type="text"
-            name="searchQuery"
-            value={this.state.searchQuery}
-            onChange={this.handleQueryChange}
-            autoComplete="off"
-            autoFocus
-            placeholder="Search images and photos"
-          />
-        </Form>
-      </Header>
-    );
-  }
-}
+        <FormInput
+          type="text"
+          name="searchQuery"
+          value={searchQuery}
+          onChange={handleQueryChange}
+          autoComplete="off"
+          autoFocus
+          placeholder="Search images and photos"
+        />
+      </Form>
+    </Header>
+  );
+};
 
 Searchbar.propTypes = {
   onSubmit: PropTypes.func,
 };
+
+export default Searchbar;
