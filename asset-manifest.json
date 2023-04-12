@@ -1,15 +1,15 @@
 {
   "files": {
-    "main.css": "/goit-react-hw-04-images/static/css/main.821fb810.css",
-    "main.js": "/goit-react-hw-04-images/static/js/main.c2a59b78.js",
+    "main.css": "/goit-react-hw-04-images/static/css/main.1c0b252f.css",
+    "main.js": "/goit-react-hw-04-images/static/js/main.61689191.js",
     "static/media/vecteezy_404-landing-page_6549647.jpg": "/goit-react-hw-04-images/static/media/vecteezy_404-landing-page_6549647.38da77fa310c806b1db8.jpg",
     "index.html": "/goit-react-hw-04-images/index.html",
     "static/media/search.svg": "/goit-react-hw-04-images/static/media/search.0c88187760b3155d202492da138181e1.svg",
-    "main.821fb810.css.map": "/goit-react-hw-04-images/static/css/main.821fb810.css.map",
-    "main.c2a59b78.js.map": "/goit-react-hw-04-images/static/js/main.c2a59b78.js.map"
+    "main.1c0b252f.css.map": "/goit-react-hw-04-images/static/css/main.1c0b252f.css.map",
+    "main.61689191.js.map": "/goit-react-hw-04-images/static/js/main.61689191.js.map"
   },
   "entrypoints": [
-    "static/css/main.821fb810.css",
-    "static/js/main.c2a59b78.js"
+    "static/css/main.1c0b252f.css",
+    "static/js/main.61689191.js"
   ]
 }
