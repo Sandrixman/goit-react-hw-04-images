@@ -7,13 +7,9 @@ import Searchbar from './Searchbar/Searchbar';
 const App = () => {
   const [searchQuery, setSearchQuery] = useState('');
 
-  const inputQuery = getSearchQuery => {
-    setSearchQuery({ getSearchQuery });
-  };
-
   return (
     <>
-      <Searchbar onSubmit={inputQuery} />
+      <Searchbar onSubmit={setSearchQuery} />
       <ImageGallery searchQuery={searchQuery} />
       <ToastContainer />
     </>

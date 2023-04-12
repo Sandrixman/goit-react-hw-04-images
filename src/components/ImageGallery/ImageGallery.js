@@ -11,32 +11,34 @@ import ImageGalleryItem from './ImageGalleryItem/ImageGalleryItem';
 import Loader from './Loader/Loader';
 import Button from './Button/Button';
 
-const ImageGallery = searchQuery => {
+const ImageGallery = ({ searchQuery }) => {
   const [imageApiAnswer, setImageApiAnswer] = useState([]);
   const [status, setStatus] = useState('idle');
   const [searchPage, setSearchPage] = useState(1);
 
   useEffect(() => {
-    return () => {
-      console.log('useEffect');
+    if (searchQuery === '') {
+      return;
+    }
 
+    if (searchPage < 2) {
       setStatus('panding');
-
-      imageApi(searchQuery, searchPage)
-        .then(({ data }) => {
-          if (data.total === 0) {
-            setStatus('rejected');
-            return toast.error('incorrect query', {
-              position: 'top-center',
-            });
-          }
-          setImageApiAnswer(prevState => [...prevState, ...data.hits]);
-          setStatus('resolved');
-        })
-        .catch(error => {
+      setImageApiAnswer([]);
+    }
+    imageApi(searchQuery, searchPage)
+      .then(({ data }) => {
+        if (data.total === 0) {
           setStatus('rejected');
-        });
-    };
+          return toast.error('incorrect query', {
+            position: 'top-center',
+          });
+        }
+        setImageApiAnswer(prevState => [...prevState, ...data.hits]);
+        setStatus('resolved');
+      })
+      .catch(error => {
+        setStatus('rejected');
+      });
   }, [searchQuery, searchPage]);
 
   const loadMore = () => {
@@ -65,14 +67,14 @@ const ImageGallery = searchQuery => {
             />
           ))}
         </Gallery>
-        <Button onIncrementPage={loadMore} />
+        {searchQuery !== '' && <Button onIncrementPage={loadMore} />}
       </App>
     );
   }
 };
 
 ImageGallery.propTypes = {
-  searchQuery: ProtoTypes.string,
+  searchQuery: ProtoTypes.string.isRequired,
 };
 
 export default ImageGallery;
