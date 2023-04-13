@@ -1,5 +1,7 @@
-@import-normalize;
+import { createGlobalStyle } from 'styled-components';
+import 'modern-normalize';
 
+export const GlobalStyle = createGlobalStyle`
 html {
   box-sizing: border-box;
   width: 100vw;
@@ -43,3 +45,5 @@ img {
   max-width: 100%;
   height: auto;
 }
+
+`;
