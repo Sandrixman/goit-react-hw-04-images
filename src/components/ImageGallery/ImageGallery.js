@@ -11,10 +11,9 @@ import ImageGalleryItem from './ImageGalleryItem/ImageGalleryItem';
 import Loader from './Loader/Loader';
 import Button from './Button/Button';
 
-const ImageGallery = ({ searchQuery }) => {
+const ImageGallery = ({ searchQuery, searchPage, changePage }) => {
   const [imageApiAnswer, setImageApiAnswer] = useState([]);
   const [status, setStatus] = useState('idle');
-  const [searchPage, setSearchPage] = useState(1);
 
   useEffect(() => {
     if (searchQuery === '') {
@@ -42,7 +41,7 @@ const ImageGallery = ({ searchQuery }) => {
   }, [searchQuery, searchPage]);
 
   const loadMore = () => {
-    setSearchPage(prevState => prevState + 1);
+    changePage(prevState => prevState + 1);
   };
 
   if (status === 'idle') {
@@ -67,7 +66,7 @@ const ImageGallery = ({ searchQuery }) => {
             />
           ))}
         </Gallery>
-        {searchQuery !== '' && <Button onIncrementPage={loadMore} />}
+        {imageApiAnswer && <Button onIncrementPage={loadMore} />}
       </App>
     );
   }
@@ -75,6 +74,8 @@ const ImageGallery = ({ searchQuery }) => {
 
 ImageGallery.propTypes = {
   searchQuery: ProtoTypes.string.isRequired,
+  searchPage: ProtoTypes.number.isRequired,
+  changePage: ProtoTypes.func.isRequired,
 };
 
 export default ImageGallery;

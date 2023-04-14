@@ -8,12 +8,17 @@ import ImageGallery from './ImageGallery/ImageGallery';
 
 const App = () => {
   const [searchQuery, setSearchQuery] = useState('');
+  const [searchPage, setSearchPage] = useState(1);
 
   return (
     <>
       <Layout>
-        <Searchbar onSubmit={setSearchQuery} />
-        <ImageGallery searchQuery={searchQuery} />
+        <Searchbar onSubmit={setSearchQuery} resetPage={setSearchPage} />
+        <ImageGallery
+          searchQuery={searchQuery}
+          searchPage={searchPage}
+          changePage={setSearchPage}
+        />
       </Layout>
       <ToastContainer />
       <GlobalStyle />

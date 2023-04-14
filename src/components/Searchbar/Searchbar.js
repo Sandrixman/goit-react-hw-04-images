@@ -9,7 +9,7 @@ import {
   FormInput,
 } from './Seachbar.styled';
 
-const Searchbar = ({ onSubmit }) => {
+const Searchbar = ({ onSubmit, resetPage }) => {
   const [searchQuery, setSearchQuery] = useState('');
 
   const handleQueryChange = e => {
@@ -20,6 +20,7 @@ const Searchbar = ({ onSubmit }) => {
     e.preventDefault();
 
     onSubmit(searchQuery);
+    resetPage(1);
     setSearchQuery('');
   };
 
