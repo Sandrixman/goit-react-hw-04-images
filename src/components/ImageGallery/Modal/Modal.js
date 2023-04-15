@@ -5,7 +5,7 @@ import { Overlay, ModalBlock, Btn } from './Modal.styled';
 
 const modalRoot = document.querySelector('#modal-root');
 
-export default function Modal({ modalUrl, onToggleModalImage }) {
+const Modal = ({ modalUrl, onToggleModalImage }) => {
   useEffect(() => {
     const handleKeyDown = e => {
       if (e.code === 'Escape') {
@@ -33,9 +33,11 @@ export default function Modal({ modalUrl, onToggleModalImage }) {
     </Overlay>,
     modalRoot
   );
-}
+};
 
 Modal.propTypes = {
   modalUrl: PropTypes.string,
   onToggleModalImage: PropTypes.func,
 };
+
+export default Modal;

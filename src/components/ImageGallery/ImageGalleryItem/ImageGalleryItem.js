@@ -2,19 +2,13 @@ import { useState } from 'react';
 import PropTypes from 'prop-types';
 
 import { GalleryCard, GalleryImage } from './ImageGalleryItem.styled';
-
 import Modal from '../Modal/Modal';
 
 const ImageGalleryItem = ({ smallImg, mainImg }) => {
   const [showModalImage, setShowModalImage] = useState(false);
-  const [modalUrl, setModalUrl] = useState('');
 
   const toggleModalImage = () => {
     setShowModalImage(prevState => !prevState);
-  };
-
-  const setModalImage = modalUrl => {
-    setModalUrl(modalUrl);
   };
 
   return (
@@ -22,17 +16,15 @@ const ImageGalleryItem = ({ smallImg, mainImg }) => {
       <GalleryCard>
         <GalleryImage
           src={smallImg}
-          data-url={mainImg}
           alt=""
           onClick={e => {
             // document.getElementById('root').style.overflow = 'hidden';
             toggleModalImage();
-            setModalImage(e.currentTarget.dataset.url);
           }}
         />
       </GalleryCard>
       {showModalImage && (
-        <Modal modalUrl={modalUrl} onToggleModalImage={toggleModalImage} />
+        <Modal modalUrl={mainImg} onToggleModalImage={toggleModalImage} />
       )}
     </>
   );

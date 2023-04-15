@@ -14,13 +14,14 @@ import Button from './Button/Button';
 const ImageGallery = ({ searchQuery, searchPage, changePage }) => {
   const [imageApiAnswer, setImageApiAnswer] = useState([]);
   const [status, setStatus] = useState('idle');
+  const [totalResult, setTotalResult] = useState(0);
 
   useEffect(() => {
     if (searchQuery === '') {
       return;
     }
 
-    if (searchPage < 2) {
+    if (searchPage === 1) {
       setStatus('panding');
       setImageApiAnswer([]);
     }
@@ -34,6 +35,7 @@ const ImageGallery = ({ searchQuery, searchPage, changePage }) => {
         }
         setImageApiAnswer(prevState => [...prevState, ...data.hits]);
         setStatus('resolved');
+        setTotalResult(data.total);
       })
       .catch(error => {
         setStatus('rejected');
@@ -51,7 +53,7 @@ const ImageGallery = ({ searchQuery, searchPage, changePage }) => {
     return <Loader />;
   }
   if (status === 'rejected') {
-    return <ErrorImg src={errorImg} alt=""></ErrorImg>;
+    return <ErrorImg src={errorImg} alt="Error image"></ErrorImg>;
   }
 
   if (status === 'resolved') {
@@ -66,7 +68,9 @@ const ImageGallery = ({ searchQuery, searchPage, changePage }) => {
             />
           ))}
         </Gallery>
-        {imageApiAnswer && <Button onIncrementPage={loadMore} />}
+        {imageApiAnswer && totalResult > imageApiAnswer.length && (
+          <Button onIncrementPage={loadMore} />
+        )}
       </App>
     );
   }
