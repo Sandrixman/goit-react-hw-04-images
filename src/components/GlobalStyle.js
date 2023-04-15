@@ -5,7 +5,6 @@ export const GlobalStyle = createGlobalStyle`
 html {
   box-sizing: border-box;
   width: 100vw;
-  overflow-x: hidden;
 }
 
 *,
@@ -22,6 +21,7 @@ body {
   background-color: #fff;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  overflow: auto;
 }
 
 h1,
@@ -46,4 +46,7 @@ img {
   height: auto;
 }
 
+.hidden{
+  overflow: hidden;
+}
 `;

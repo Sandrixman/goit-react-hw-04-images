@@ -9,19 +9,13 @@ const ImageGalleryItem = ({ smallImg, mainImg }) => {
 
   const toggleModalImage = () => {
     setShowModalImage(prevState => !prevState);
+    document.querySelector('body').classList.toggle('hidden');
   };
 
   return (
     <>
       <GalleryCard>
-        <GalleryImage
-          src={smallImg}
-          alt=""
-          onClick={e => {
-            // document.getElementById('root').style.overflow = 'hidden';
-            toggleModalImage();
-          }}
-        />
+        <GalleryImage src={smallImg} alt="" onClick={toggleModalImage} />
       </GalleryCard>
       {showModalImage && (
         <Modal modalUrl={mainImg} onToggleModalImage={toggleModalImage} />
